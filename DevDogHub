@@ -1,0 +1,238 @@
+local Player = game.Players.LocalPlayer
+local RunService = game:GetService("RunService")
+
+getgenv().CurrentSpeed = 16
+getgenv().CurrentJumpPower = 50
+getgenv().SpeedEnabled = false
+getgenv().JumpEnabled = false
+getgenv().NoclipEnabled = false
+
+-- Noclip Helper for character reset (ฟังก์ชันช่วยในการตั้งค่า Noclip เมื่อตัวละครเกิดใหม่)
+local function applyNoclipState(character)
+    if character and getgenv().NoclipEnabled then
+        local humanoid = character:WaitForChild("Humanoid", 5)
+        if humanoid then
+            -- ป้องกันไม่ให้ตัวละครล้มเมื่อเกิดการชน (สำหรับ Noclip)
+            humanoid:SetStateEnabled(Enum.HumanoidStateType.FallingDown, false)
+        end
+    end
+end
+Player.CharacterAdded:Connect(applyNoclipState)
+-- เรียกใช้ครั้งแรกในกรณีที่ตัวละครโหลดอยู่แล้ว
+applyNoclipState(Player.Character)
+
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2zu/OPEN-SOURCE-UI-ROBLOX/refs/heads/main/X2ZU%20UI%20ROBLOX%20OPEN%20SOURCE/DummyUi-leak-by-x2zu/fetching-main/Tools/Framework.luau"))()
+
+-- Create Main Window
+local Window = Library:Window({
+    Title = "DevDog Hub",
+    Desc = "Update V.1.00",
+    Icon = 105059922903197,
+    Theme = "Dark",
+    Config = {
+        Keybind = Enum.KeyCode.LeftControl, -- ปุ่มลัดสำหรับยุบ/ขยาย UI
+        Size = UDim2.new(0, 500, 0, 400)
+    },
+    CloseUIButton = {
+        Enabled = true,
+        Text = "DevDog Hub"
+    }
+})
+
+-- Tab: Main Hacks
+local Tab = Window:Tab({Title = "Main", Icon = "star"}) do
+    
+    Tab:Section({Title = "Main"})
+    Tab:Button({
+        Title = "GiveTool",
+        Desc = "Give ever tool",
+        Value = false,
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/yofriendfromschool1/Sky-Hub-Backup/main/gametoolgiver.lua"))()
+            Window:Notify({
+                    Title = "ShowGui Success",
+                    Desc = "Show Give Gui Success",
+                    Time = 3
+                })
+        end
+    })
+    Tab:Button({
+        Title = "Invisible",
+        Desc = "invisible",
+        Value = false,
+        Callback = function()
+            loadstring(game:HttpGet('https://pastebin.com/raw/3Rnd9rHf'))()
+            Window:Notify({
+                    Title = "ShowGui Success",
+                    Desc = "Show Invisible Gui Success",
+                    Time = 3
+                })
+        end
+    })
+
+    Tab:Section({Title = "Movement Controls"})
+
+    -- 1. Noclip (Toggle) - แก้ไข Callback ให้ตั้งค่า NoclipEnabled อย่างถูกต้อง
+    Tab:Toggle({
+        Title = "Noclip",
+        Desc = "Walk through walls and terrain.",
+        Value = false,
+        Callback = function(state) -- 'state' คือ true/false ตามสถานะปุ่ม
+            getgenv().NoclipEnabled = state
+            -- Apply noclip state immediately upon toggle
+            local Character = Player.Character
+            if Character then 
+                applyNoclipState(Character) 
+            end
+        end
+    })
+
+    -- 2. Set WalkSpeed (Slider)
+    Tab:Slider({
+        Title = "WalkSpeed",
+        Desc = "Adjust your character's walking speed.",
+        Min = 16,
+        Max = 150,
+        Rounding = 0,
+        Value = 16,
+        Callback = function(val)
+            getgenv().CurrentSpeed = val
+            getgenv().SpeedEnabled = (val > 16)
+            if Player.Character then
+                Player.Character:WaitForChild("Humanoid").WalkSpeed = val
+            end
+        end
+    })
+
+    -- 3. Set JumpPower (Slider)
+    Tab:Slider({
+        Title = "JumpPower",
+        Desc = "Adjust your character's jump height.",
+        Min = 7.2,
+        Max = 300,
+        Rounding = 0,
+        Value = 7.2,
+        Callback = function(val)
+            getgenv().CurrentJumpPower = val
+            getgenv().JumpEnabled = (val > 7.2)
+            if Player.Character then
+                Player.Character:WaitForChild("Humanoid").JumpHeight = val
+            end
+        end
+    })
+end
+
+-- Line Separator
+Window:Line()
+
+-- Teleport
+local All = Window:Tab({Title = "99 Night in the forest", Icon = "flower"}) do
+    All:Section({Title = "All Script"})
+-- 4. Teleport Button (New Feature)
+    All:Button({
+        Title = "H4xScript",
+        Desc = "H4xScript",
+        Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/H4xScripts/Loader/refs/heads/main/loader2.lua", true))()
+        end
+    })
+    All:Button({
+        Title = "Xenith",
+        Desc = "Xenith",
+        Callback = function()
+        loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/d7be76c234d46ce6770101fded39760c.lua"))()
+        end
+    })
+    All:Button({
+        Title = "Somtank",
+        Desc = "Somtank",
+        Callback = function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/MQPS7/99-Night-in-the-Forset/refs/heads/main/99Nightv1'))()
+        end
+    })
+    All:Button({
+        Title = "Voidware(NOKEY)",
+        Desc = "Auto Collect (Diamonds, Floors, Food, Meat, Chest, Child)",
+        Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/VapeVoidware/VW-Add/main/nightsintheforest.lua", true))()
+        end
+    })
+    All:Button({
+        Title = "Voidware (Old)(NOKEY)",
+        Desc = "Auto Bring All Stuff (Flashlight, Storage, Healing, Food, Weapons)",
+        Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/VapeVoidware/VWExtra/main/NightsInTheForest.lua", true))()
+        end
+    })
+    All:Button({
+        Title = "ToastyXD HUB",
+        Desc = "This is the 99 nights in the forest script made by toastyXD hub that provides a number of cool features such as instant reload and auto attack.",
+        Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/nouralddin-abdullah/ToastyHub-XD/refs/heads/main/hub-main.lua"))()
+        end
+    })
+end
+
+-- Another Tab Example (Settings)
+local A = Window:Tab({Title = "Prison Life", Icon = "wrench"}) do
+    A:Section({Title = "All Script"})
+-- 4. Teleport Button (New Feature)
+    A:Button({
+        Title = "Prison Admin",
+        Desc = "Prison Admin",
+        Callback = function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/VYjdEsc5"))()
+        end
+    })
+end
+
+-- Another Tab Example (Settings)
+local Extra = Window:Tab({Title = "Settings", Icon = "settings"}) do
+    Extra:Section({Title = "Config"})
+    Extra:Button({Title = "Save Config"})
+    Extra:Section({Title = "Other Functions"})    
+    -- ตัวอย่าง Button สำหรับทดสอบ
+    Extra:Button({
+        Title = "Test Notification",
+        Desc = "Click to display a quick notification.",
+        Callback = function()
+            Window:Notify({
+                Title = "Test",
+                Desc = "Movement hacks active!",
+                Time = 3
+            })
+        end
+    })
+end
+
+-- Final Notification
+Window:Notify({
+    Title = "DevDog Hub",
+    Desc = "All components loaded successfully!",
+    Time = 4
+})
+RunService.Heartbeat:Connect(function()
+    local Character = Player.Character
+    if not Character then return end
+
+    local Humanoid = Character:FindFirstChild("Humanoid")
+    if not Humanoid then return end
+    
+    -- Enforcement: Speed & JumpPower (ป้องกันการรีเซ็ตค่าของเกม)
+    if getgenv().SpeedEnabled and Humanoid.WalkSpeed ~= getgenv().CurrentSpeed then
+        Humanoid.WalkSpeed = getgenv().CurrentSpeed
+    end
+    if getgenv().JumpEnabled and Humanoid.JumpPower ~= getgenv().CurrentJumpPower then
+        Humanoid.JumpPower = getgenv().CurrentJumpPower
+    end
+
+    -- Enforcement: Noclip (บังคับค่า CanCollide = false)
+    if getgenv().NoclipEnabled then
+        for _, part in ipairs(Character:GetChildren()) do
+            -- ตรวจสอบว่าเป็น BasePart และไม่ได้เป็น HumanoidRootPart/Head และยังมี CanCollide = true อยู่
+            if part:IsA("BasePart") and part.Name ~= "HumanoidRootPart" and part.Name ~= "Head" and part.CanCollide then
+                part.CanCollide = false
+            end
+        end
+    end
+end)
